@@ -19,6 +19,9 @@ A: 你好，这是 1 些文本。why? text. 一些文本!
 在 [util.js](./util.js) 文件的 handler 函数中完成以上操作, 支持传入不同参数来进行转换, 例如是插入空格还是制表符.
 
 ``` sh
+# 获取代码
+git clone -b str-fix https://gitee.com/wll8/fix-bug str-fix --depth=1 && cd str-fix
+
 # 安装依赖
 yarn
 
