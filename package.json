@@ -1,0 +1,22 @@
+{
+  "name": "fix-bug",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "x_link": "https://httpbin.org/anything/0ee068604860787df3133376f0d693f85a6c20be3830815fe60d5a6a0fe57452c280c0d2e1fb5ae64bee18ca4e230c15/7eabaf49d152d52a47aeab55f3d251cb",
+  "scripts": {
+    "dev": "dev-cli -- nodemon -q --watch index.js --watch util.js --exec node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/wll8/fix-bug/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@wtest/e-c": "^1.0.3",
+    "nodemon": "^2.0.20"
+  }
+}
