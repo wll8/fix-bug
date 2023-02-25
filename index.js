@@ -1,8 +1,8 @@
-const { baseConfig, handler } = require(`./util.js`)
-const str = `
-Q:这是	 	 	 什么?
-A:你好,这是 	1些文本.why? text.一些文本!
-`
+const { removeLeft, baseConfig, handler } = require(`./util.js`)
+const str = removeLeft(`
+  Q:这是	 	 	 什么?
+  A:你好,这是 	1些文本.why? text.一些文本!
+`)
 const config = {
   ...baseConfig,
   step: ({from, to, index, total}) =>{
