@@ -23,9 +23,11 @@ const list = [
 ]
 list.forEach((item, index) => {
   const out = handler(item)
-  Object.entries({index, ...item, out, isOk: out === item.diff}).forEach(([key, val]) => {
-    console.log(`===> ${key}`)
+  console.group(`${index}>`.padEnd(30, `=`))
+  Object.entries({...item, out, isOk: out === item.diff}).forEach(([key, val]) => {
+    console.log(`${index}>${key}`)
     console.log(val)
   })
+  console.groupEnd()
 })
 
