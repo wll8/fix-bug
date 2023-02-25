@@ -1,7 +1,6 @@
 const { removeLeft, baseConfig, handler } = require(`./util.js`)
 const str = removeLeft(`
-  Q:这是	 	 	 什么?
-  A:你好,这是 	1些文本.why? text.一些文本!
+  中文 en.en?		中文en呀.
 `)
 const config = {
   ...baseConfig,

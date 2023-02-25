@@ -1,7 +1,6 @@
-const { removeLeft, baseConfig: config, handler } = require(`./util.js`)
+const { removeLeft, baseConfig, handler } = require(`./util.js`)
 const list = [
   {
-    config,
     str: removeLeft(`
       Q:这是	 	 	 什么?
       A:你好,这是 	1些文本.why? text.一些文本!
@@ -12,20 +11,36 @@ const list = [
     `),
   },
   {
-    config,
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
       中文 en.en? 中文 en 呀。
     `),
-  }
+  },
+  {
+    config: {
+      convert: [
+        [`!`, `！`],
+      ],
+    },
+    str: removeLeft(`
+      1.道路千wan条,安全第1条.
+      2 .行车不规范, 亲人两行泪,boo!嘣!
+    `),
+    diff: removeLeft(`
+      1. 道路千 wan 条，安全第 1 条。
+      2 . 行车不规范，亲人两行泪， boo! 嘣！
+    `),
+  },
 ]
 list.forEach((item, index) => {
-  const out = handler(item)
+  const config = {...baseConfig, ...item.config}
+  const out = handler({config, ...item})
   console.group(`${index}>`.padEnd(30, `=`))
-  Object.entries({...item, out, isOk: out === item.diff}).forEach(([key, val]) => {
-    console.log(`${index}>${key}`)
+  const {str, diff} = item
+  Object.entries({config, str, out, diff,isOk: out === item.diff}).forEach(([key, val]) => {
+    console.log(`${index}>==${key}`)
     console.log(val)
   })
   console.groupEnd()
