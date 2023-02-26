@@ -136,7 +136,7 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文 _en.en?		_中文_en_呀._
+      中文 _en.en? _中文_en_呀。_
     `),
   },
   {
