@@ -113,8 +113,10 @@ const list = [
   },
   {
     name: `使用 step 替换为 _`,
-    step: ({from, to, index, total}) =>{
-      return `_`
+    config: {
+      step: ({from, to, index, total}) =>{
+        return `_`
+      },
     },
     str: removeLeft(`
       中文 en.en?		中文en呀.
@@ -125,8 +127,10 @@ const list = [
   },
   {
     name: `使用 step 中的 to`,
-    step: ({from, to, index, total}) =>{
-      return `${to}_`
+    config: {
+      step: ({from, to, index, total}) =>{
+        return `${to}_`
+      },
     },
     str: removeLeft(`
       中文 en.en?		中文en呀.
@@ -137,8 +141,10 @@ const list = [
   },
   {
     name: `使用 step 中的 total`,
-    step: ({from, to, index, total}) =>{
-      return total
+    config: {
+      step: ({from, to, index, total}) =>{
+        return total
+      },
     },
     str: removeLeft(`
       中文 en.en?		中文en呀.
@@ -149,8 +155,10 @@ const list = [
   },
   {
     name: `使用 step 中的 from`,
-    step: ({from, to, index, total}) =>{
-      return `${from}_${from}`
+    config: {
+      step: ({from, to, index, total}) =>{
+        return `${from}_${from}`
+      },
     },
     str: removeLeft(`
       中文 en.en?		中文en呀.
@@ -161,8 +169,10 @@ const list = [
   },
   {
     name: `使用 step 中的 index`,
-    step: ({from, to, index, total}) =>{
-      return index
+    config: {
+      step: ({from, to, index, total}) =>{
+        return index
+      },
     },
     str: removeLeft(`
       中文 en.en?		中文en呀.
@@ -215,9 +225,9 @@ const list = [
         [`.`, `。`],
         [`a`, `b`],
       ],
-    },
-    step: ({ from, to, index, total }) => {
-      return `${to}${index}`
+      step: ({ from, to, index, total }) => {
+        return `${to}${index}`
+      },
     },
     str: removeLeft(`
       你a	 1好.
