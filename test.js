@@ -13,6 +13,18 @@ const list = [
     `),
   },
   {
+    name: `convertEnd 参数为 false, 不转换英文后面符号 -- 前而有英文`,
+    config: {
+      convertEnd: false,
+    },
+    str: removeLeft(`
+      abc.中文en.en.
+    `),
+    diff: removeLeft(`
+      abc. 中文 en.en.
+    `),
+  },
+  {
     name: `convertEnd 参数为 true, 应转换英文后面符号`,
     config: {
       convertEnd: true,
@@ -25,6 +37,18 @@ const list = [
     `),
   },
   {
+    name: `convertEnd 参数为 true, 不转换英文后面符号 -- 前而有英文`,
+    config: {
+      convertEnd: true,
+    },
+    str: removeLeft(`
+      abc.中文en.en.
+    `),
+    diff: removeLeft(`
+      abc。中文 en.en。
+    `),
+  },
+  {
     name: `不处理多余的空白符号 cleanSpace`,
     config: {
       cleanSpace: false,
@@ -34,6 +58,42 @@ const list = [
     `),
     diff: removeLeft(`
       中文 en.en?		中文 en 呀。
+    `),
+  },
+  {
+    name: `要处理多余的空白符号 -- 应仅处理半角空格和制表符`,
+    config: {
+      cleanSpace: true,
+    },
+    str: removeLeft(`
+      中文   en.en?		中文en呀${getSpace().join(``)}呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en? 中文 en 呀${getSpace().join(``)}呀。
+    `),
+  },
+  {
+    name: `要处理多余的空白符号 -- 应仅处理半角空格和制表符 2`,
+    config: {
+      cleanSpace: true,
+    },
+    str: removeLeft(`
+      中文   en.en?		中文en呀${getSpace().join(` `)}呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en? 中文 en 呀${getSpace().join(` `)}呀。
+    `),
+  },
+  {
+    name: `要处理多余的空白符号 -- 应仅处理半角空格和制表符 3`,
+    config: {
+      cleanSpace: true,
+    },
+    str: removeLeft(`
+      中文   en.en?		中文en呀${getSpace().join(`      `)}呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en? 中文 en 呀${getSpace().join(` `)}呀。
     `),
   },
   {
@@ -236,6 +296,23 @@ const list = [
       2 . 行车不规范, 亲人两行泪, boo! 嘣！
     `),
   },
+  {
+    name: `仅转换传入的符号 ! => ！ -- 往回转`,
+    config: {
+      convert: [
+        [`!`, `！`],
+        [`！`, `!`],
+      ],
+    },
+    str: removeLeft(`
+      1.道路千wan条,安全第1条.
+      2 .行车不规范, 亲人两行泪,boo!嘣!
+    `),
+    diff: removeLeft(`
+      1. 道路千 wan 条, 安全第 1 条.
+      2 . 行车不规范, 亲人两行泪, boo! 嘣!
+    `),
+  },
 ]
 
 function isErr() {
@@ -269,6 +346,44 @@ if(global.describe) {
       assert.equal(out, item.diff)
     });
   })
+}
+
+function getSpace () {
+  return [
+    // ` `,
+    // `	`,
+    ` `,
+    `​`,
+    `‌`,
+    `‍`,
+    `⁠`,
+    `⁡`,
+    `⁢`,
+    `⁣`,
+    `⁤`,
+    `⁪`,
+    `⁫`,
+    `⁬`,
+    `⁭`,
+    `⁮`,
+    `⁯`,
+    `　`,
+    `ᅟ`,
+    `ᅠ`,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    ` `,
+    `ﾠ`,
+  ]
 }
 
 module.exports = {
