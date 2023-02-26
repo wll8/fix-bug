@@ -99,6 +99,17 @@ if(require.main === module) {
   isErr()
 }
 
+if(global.describe) {
+  const assert = require('assert');
+  list.forEach(item => {
+    it(item.name, function () {
+      const config = {...baseConfig, ...item.config}
+      const out = handler({...item, config})
+      assert.equal(out, item.diff)
+    });
+  })
+}
+
 module.exports = {
   isErr,
   list,
