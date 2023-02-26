@@ -25,7 +25,7 @@ const list = [
     `),
   },
   {
-    name: `不处理多于的空白符号 cleanSpace`,
+    name: `不处理多余的空白符号 cleanSpace`,
     config: {
       cleanSpace: false,
     },
@@ -33,7 +33,25 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文 en.en?		中文en呀。
+      中文 en.en?		中文 en 呀。
+    `),
+  },
+  {
+    name: `当原文以中文字符+英文标点结尾时, `,
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en? 中文 en 呀。
+    `),
+  },
+  {
+    name: `当原文以中文字符+英文标点+英文字符结尾时, 使用中文标点`,
+    str: removeLeft(`
+      中文.id
+    `),
+    diff: removeLeft(`
+      中文。id
     `),
   },
   {
@@ -165,6 +183,54 @@ const list = [
     `),
     diff: removeLeft(`
       你好, 一些文本。
+    `),
+  },
+  {
+    name: `参数先后顺序, 先 cleanSpace - insert - convert`,
+    config: {
+      insert: `a	 ba b a`,
+      convert: [
+        [`.`, `。`],
+        [`a`, `b`],
+      ],
+    },
+    str: removeLeft(`
+      你a	 1好.
+    `),
+    /**
+     * cleanSpace 处理后 【你a	 1好.】 => 【你aa	 ba b a1好.】 -- 处理多余空白符为 insert, 不递归处理.
+     * insert 处理后 【你a	 ba b aa	 ba b a1a	 ba b a好.】 -- 处理其他地方的 insert
+     * convert[0] 处理后 【你aa	 ba b aa	 ba b a1a	 ba b a好。】 -- 把 . 替换为 。, 处理 convert 时留意 convertEnd 参数
+     * convert[1] 处理后 【你ab	 bb b ab	 bb b a1b	 bb b a好。】 -- 把标点 a 替换为 b -- 留意 convert 永远表示标点, 所以在其他字符尾部才做处理.
+     */
+    diff: removeLeft(`
+      你ab	 bb b ab	 bb b a1b	 bb b a好。
+    `),
+  },
+  {
+    name: `参数先后顺序, 先 cleanSpace - insert - convert[0] - ... step`,
+    config: {
+      insert: `a	 ba b a`,
+      convert: [
+        [`.`, `。`],
+        [`a`, `b`],
+      ],
+    },
+    step: ({ from, to, index, total }) => {
+      return `${to}${index}`
+    },
+    str: removeLeft(`
+      你a	 1好.
+    `),
+    /**
+     * cleanSpace 处理后 【你a	 1好.】 => 【你aa	 ba b a1好.】
+     * insert 处理后 【你a	 ba b aa	 ba b a1a	 ba b a好.】
+     * convert[0] 处理后 【你aa	 ba b aa	 ba b a1a	 ba b a好。】
+     * convert[1] 处理时 【你ab	 bb b ab	 bb b a1b	 bb b a好。】 -- 由于它是最后一环, 所以会被 step 拦截
+     * step 处理后 【你ab0	 bb1 b ab2	 bb3 b a1b4	 bb5 b a好。】
+     */
+    diff: removeLeft(`
+      你ab0	 bb1 b ab2	 bb3 b a1b4	 bb5 b a好。
     `),
   },
   {
