@@ -55,7 +55,7 @@ const list = [
     `),
   },
   {
-    name: `要处理多于的空白符号 cleanSpace`,
+    name: `要处理多余的空白符号 cleanSpace`,
     config: {
       cleanSpace: true,
     },
@@ -63,7 +63,7 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文 en.en? 中文en呀。
+      中文 en.en? 中文 en 呀。
     `),
   },
   {
