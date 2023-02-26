@@ -6,10 +6,10 @@ const list = [
       convertEnd: false,
     },
     str: removeLeft(`
-      中文en.en?
+      中文en.en.
     `),
     diff: removeLeft(`
-      中文 en.en?
+      中文 en.en.
     `),
   },
   {
@@ -22,6 +22,30 @@ const list = [
     `),
     diff: removeLeft(`
       中文 en.en。
+    `),
+  },
+  {
+    name: `不处理多于的空白符号 cleanSpace`,
+    config: {
+      cleanSpace: false,
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en?		中文en呀。
+    `),
+  },
+  {
+    name: `要处理多于的空白符号 cleanSpace`,
+    config: {
+      cleanSpace: true,
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en? 中文en呀。
     `),
   },
   {
@@ -42,7 +66,7 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文---en.en?---中文---en---呀---
+      中文---en.en?---中文---en---呀。
     `),
   },
   {
@@ -54,7 +78,7 @@ const list = [
       中---文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中---文---en.en?---中文---en---呀---
+      中---文---en.en?---中文---en---呀。
     `),
   },
   {
@@ -66,7 +90,7 @@ const list = [
       中文--#en.en?-##中文en呀.
     `),
     diff: removeLeft(`
-      中文-#%--#en.en?-##-#%中文-#%en-#%呀-#%
+      中文-#%--#en.en?-##-#%中文-#%en-#%呀。
     `),
   },
   {
