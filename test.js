@@ -80,7 +80,7 @@ const list = [
 function isErr() {
   const err = list.some((item, index) => {
     const config = {...baseConfig, ...item.config}
-    const out = handler({config, ...item})
+    const out = handler({...item, config})
     console.group(`${index} > ${item.name}`.padEnd(30, `=`))
     const {str, diff} = item
     const isOk = out === item.diff
