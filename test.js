@@ -34,15 +34,30 @@ const list = [
     `),
   },
 ]
-list.forEach((item, index) => {
-  const config = {...baseConfig, ...item.config}
-  const out = handler({config, ...item})
-  console.group(`${index}>`.padEnd(30, `=`))
-  const {str, diff} = item
-  Object.entries({config, str, out, diff,isOk: out === item.diff}).forEach(([key, val]) => {
-    console.log(`${index}>==${key}`)
-    console.log(val)
-  })
-  console.groupEnd()
-})
 
+function isErr() {
+  const err = list.some((item, index) => {
+    const config = {...baseConfig, ...item.config}
+    const out = handler({config, ...item})
+    console.group(`${index}>`.padEnd(30, `=`))
+    const {str, diff} = item
+    const isOk = out === item.diff
+    Object.entries({config, str, out, diff, isOk}).forEach(([key, val]) => {
+      console.log(`${index}>==${key}`)
+      console.log(val)
+    })
+    console.groupEnd()
+    return !isOk
+  })
+  console.log(`函数是否合格`, err === false)
+  return err
+}
+
+if(require.main === module) {
+  isErr()
+}
+
+module.exports = {
+  isErr,
+  list,
+}

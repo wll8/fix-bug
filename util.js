@@ -16,13 +16,17 @@ const baseConfig = {
   insert: ` `,
   // 是否替换多余空白符(空格, 制表)为要插入的字符
   cleanSpace: true,
-  // 要转换的符号, 不管如何配置, 英文字符后面不能跟中文符号
+  // 要转换的符号, 受 convertEnd 参数限制
   convert: [
     [`,`, `，`],
     [`.`, `。`],
   ],
-  // 是否转换英文后面的字符
-  convertSwitchEnd: false,
+  /**
+   * 是否转换英文后面的标点符号
+   * 当为 false 时, 【中文en.en?】应转换为【中文 en.en? 】
+   * 当为 true 时, 【中文en.en?】应转换为【中文 en.en？ 】
+   */
+  convertEnd: false,
   /**
    * 每次修改前调用此函数, 示意图 @/img/2023-02-25-22-31-42.png
    * from -- 修改前的字符, 如果是插入时则为空字符串
