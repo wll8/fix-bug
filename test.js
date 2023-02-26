@@ -114,7 +114,7 @@ const list = [
   {
     name: `使用 step 替换为 _`,
     config: {
-      step: ({from, to, index, total}) =>{
+      step: ({from, to}) =>{
         return `_`
       },
     },
@@ -122,13 +122,13 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文_en.en?_中文_en_呀_
+      中文 en.en?_中文_en_呀_
     `),
   },
   {
     name: `使用 step 中的 to`,
     config: {
-      step: ({from, to, index, total}) =>{
+      step: ({from, to}) =>{
         return `${to}_`
       },
     },
@@ -136,27 +136,13 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文 _en.en? _中文_en_呀。_
-    `),
-  },
-  {
-    name: `使用 step 中的 total`,
-    config: {
-      step: ({from, to, index, total}) =>{
-        return total
-      },
-    },
-    str: removeLeft(`
-      中文 en.en?		中文en呀.
-    `),
-    diff: removeLeft(`
-      中文4en.en?4中文4en4呀4
+      中文 en.en? _中文_en_呀。_
     `),
   },
   {
     name: `使用 step 中的 from`,
     config: {
-      step: ({from, to, index, total}) =>{
+      step: ({from, to}) =>{
         return `${from}_${from}`
       },
     },
@@ -164,21 +150,7 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文 _ en.en?		_		中文_en_呀_._
-    `),
-  },
-  {
-    name: `使用 step 中的 index`,
-    config: {
-      step: ({from, to, index, total}) =>{
-        return index
-      },
-    },
-    str: removeLeft(`
-      中文 en.en?		中文en呀.
-    `),
-    diff: removeLeft(`
-      中文0en.en?1中文2en3呀4
+      中文 en.en?		_		中文_en_呀_._
     `),
   },
   {
@@ -215,32 +187,6 @@ const list = [
      */
     diff: removeLeft(`
       你ab	 bb b ab	 bb b a1b	 bb b a好。
-    `),
-  },
-  {
-    name: `参数先后顺序, 先 cleanSpace - insert - convert[0] - ... step`,
-    config: {
-      insert: `a	 ba b a`,
-      convert: [
-        [`.`, `。`],
-        [`a`, `b`],
-      ],
-      step: ({ from, to, index, total }) => {
-        return `${to}${index}`
-      },
-    },
-    str: removeLeft(`
-      你a	 1好.
-    `),
-    /**
-     * cleanSpace 处理后 【你a	 1好.】 => 【你aa	 ba b a1好.】
-     * insert 处理后 【你a	 ba b aa	 ba b a1a	 ba b a好.】
-     * convert[0] 处理后 【你aa	 ba b aa	 ba b a1a	 ba b a好。】
-     * convert[1] 处理时 【你ab	 bb b ab	 bb b a1b	 bb b a好。】 -- 由于它是最后一环, 所以会被 step 拦截
-     * step 处理后 【你ab0	 bb1 b ab2	 bb3 b a1b4	 bb5 b a好。】
-     */
-    diff: removeLeft(`
-      你ab0	 bb1 b ab2	 bb3 b a1b4	 bb5 b a好。
     `),
   },
   {

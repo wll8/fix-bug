@@ -29,12 +29,11 @@ const baseConfig = {
   convertEnd: false,
   /**
    * 每次修改前调用此函数, 示意图 @/img/2023-02-25-22-31-42.png
+   * 注意: 为了减轻复杂度, 不再需要 index 和 total
    * from -- 修改前的字符, 如果是插入时则为空字符串
-   * index -- 当前为第几个替换位
-   * total -- 一共有多少替换位
    * to -- 即将要替换为的字符, 返回什么就替换为什么
    */
-  step: ({ from, to, index, total }) => {
+  step: ({ from, to }) => {
     return to;
   },
 };

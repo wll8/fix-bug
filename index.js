@@ -4,8 +4,8 @@ const str = removeLeft(`
 `)
 const config = {
   ...baseConfig,
-  step: ({from, to, index, total}) =>{
-    console.log(`step`, from, to, index, total)
+  step: ({from, to}) =>{
+    console.log(`step`, from, to)
     return to
   },
 }
