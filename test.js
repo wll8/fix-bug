@@ -42,11 +42,35 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文---en.en?---中文---en---呀。
+      中文---en.en?---中文---en---呀---
     `),
   },
   {
-    name: `使用 step 中的 to 替换为 _`,
+    name: `合并多于空白符号为 ---, 已处理过的不再处理`,
+    config: {
+      insert: `---`,
+    },
+    str: removeLeft(`
+      中---文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中---文---en.en?---中文---en---呀---
+    `),
+  },
+  {
+    name: `合并多于空白符号为 -#%`,
+    config: {
+      insert: `-#%`,
+    },
+    str: removeLeft(`
+      中文--#en.en?-##中文en呀.
+    `),
+    diff: removeLeft(`
+      中文-#%--#en.en?-##-#%中文-#%en-#%呀-#%
+    `),
+  },
+  {
+    name: `使用 step 替换为 _`,
     step: ({from, to, index, total}) =>{
       return `_`
     },
@@ -55,6 +79,54 @@ const list = [
     `),
     diff: removeLeft(`
       中文_en.en?_中文_en_呀_
+    `),
+  },
+  {
+    name: `使用 step 中的 to`,
+    step: ({from, to, index, total}) =>{
+      return `${to}_`
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文 _en.en?		_中文_en_呀._
+    `),
+  },
+  {
+    name: `使用 step 中的 total`,
+    step: ({from, to, index, total}) =>{
+      return total
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文4en.en?4中文4en4呀4
+    `),
+  },
+  {
+    name: `使用 step 中的 from`,
+    step: ({from, to, index, total}) =>{
+      return `${from}_${from}`
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文 _ en.en?		_		中文_en_呀_._
+    `),
+  },
+  {
+    name: `使用 step 中的 index`,
+    step: ({from, to, index, total}) =>{
+      return index
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文0en.en?1中文2en3呀4
     `),
   },
   {
