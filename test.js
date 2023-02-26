@@ -39,10 +39,22 @@ const list = [
       insert: `---`,
     },
     str: removeLeft(`
-      中文---en.en?---中文en呀.
+      中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
       中文---en.en?---中文---en---呀。
+    `),
+  },
+  {
+    name: `使用 step 中的 to 替换为 _`,
+    step: ({from, to, index, total}) =>{
+      return `_`
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文_en.en?_中文_en_呀_
     `),
   },
   {
