@@ -121,8 +121,19 @@ const list = [
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
+    // 原始 
+    // 中文 en.en?		中文en呀.
+    
+    // cleanSpace 
+    // 中文 en.en?_中文en呀.
+
+    // insert 
+    // 中文 en.en?__中文_en_呀.
+
+    // convert 
+    // 中文 en.en?__中文_en_呀_
     diff: removeLeft(`
-      中文 en.en?_中文_en_呀_
+      中文 en.en?__中文_en_呀_
     `),
   },
   {
@@ -136,7 +147,7 @@ const list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文 en.en? _中文_en_呀。_
+      中文 en.en? _ _中文 _en _呀。_
     `),
   },
   {
@@ -149,8 +160,19 @@ const list = [
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
+    // 原始 
+    // 中文 en.en?		中文en呀.
+    
+    // cleanSpace 
+    // 中文 en.en?		_		中文en呀.
+
+    // insert 
+    // 中文 en.en?		_		中文_en_呀.
+
+    // convert 
+    // 中文 en.en?		_		中文_en_呀._.
     diff: removeLeft(`
-      中文 en.en?		_		中文_en_呀_._
+      中文 en.en?		_		中文_en_呀._.
     `),
   },
   {
@@ -179,14 +201,23 @@ const list = [
     str: removeLeft(`
       你a	 1好.
     `),
-    /**
-     * cleanSpace 处理后 【你a	 1好.】 => 【你aa	 ba b a1好.】 -- 处理多余空白符为 insert, 不递归处理.
-     * insert 处理后 【你a	 ba b aa	 ba b a1a	 ba b a好.】 -- 处理其他地方的 insert
-     * convert[0] 处理后 【你aa	 ba b aa	 ba b a1a	 ba b a好。】 -- 把 . 替换为 。, 处理 convert 时留意 convertEnd 参数
-     * convert[1] 处理后 【你ab	 bb b ab	 bb b a1b	 bb b a好。】 -- 把标点 a 替换为 b -- 留意 convert 永远表示标点, 所以在其他字符尾部才做处理.
-     */
+
+    // 原始 
+    // 你a	 1好.
+    
+    // cleanSpace -- 处理多余空白符为 insert, 不递归处理.
+    // 你aa	 ba b a1好.
+
+    // insert -- 处理其他地方的 insert
+    // 你aa	 ba b aaa	 ba b a1aa	 ba b a好.
+
+    // convert[0] -- 处理 convert 时留意 convertEnd 参数
+    // 你aa	 ba b aaa	 ba b a1aa	 ba b a好。
+
+    // convert[1] -- 留意 convert 永远表示标点, 所以在其他字符尾部才做处理.
+    // 你ab	 bb b aab	 bb b a1ab	 bb b a好。
     diff: removeLeft(`
-      你ab	 bb b ab	 bb b a1b	 bb b a好。
+      你ab	 bb b aab	 bb b a1ab	 bb b a好。
     `),
   },
   {
