@@ -5,7 +5,7 @@
   "main": "index.js",
   "x_link": "https://httpbin.org/anything/0ee068604860787df3133376f0d693f85a6c20be3830815fe60d5a6a0fe57452c280c0d2e1fb5ae64bee18ca4e230c15/7eabaf49d152d52a47aeab55f3d251cb",
   "scripts": {
-    "dev": "dev-cli -- nodemon -q --watch index.js --watch util.js --exec node index.js",
+    "dev": "dev-cli -- nodemon -q --watch .js --watch util.js --watch test.js --exec node index.js",
     "test": "node test.js"
   },
   "repository": {

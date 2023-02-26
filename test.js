@@ -1,16 +1,31 @@
 const { removeLeft, baseConfig, handler } = require(`./util.js`)
 const list = [
   {
+    name: `convertEnd 参数为 false, 不转换英文后面符号`,
+    config: {
+      convertEnd: false,
+    },
     str: removeLeft(`
-      Q:这是	 	 	 什么?
-      A:你好,这是 	1些文本.why? text.一些文本!
+      中文en.en?
     `),
     diff: removeLeft(`
-      Q: 这是 什么?
-      A: 你好，这是 1 些文本。why? text. 一些文本!
+      中文 en.en?
     `),
   },
   {
+    name: `convertEnd 参数为 true, 应转换英文后面符号`,
+    config: {
+      convertEnd: true,
+    },
+    str: removeLeft(`
+      中文en.en?
+    `),
+    diff: removeLeft(`
+      中文 en.en？ 
+    `),
+  },
+  {
+    name: `合并多于空白符号为空格`,
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
@@ -19,6 +34,33 @@ const list = [
     `),
   },
   {
+    name: `合并多于空白符号为 ---`,
+    config: {
+      insert: `---`,
+    },
+    str: removeLeft(`
+      中文---en.en?---中文en呀.
+    `),
+    diff: removeLeft(`
+      中文---en.en?---中文---en---呀。
+    `),
+  },
+  {
+    name: `仅转换传入的符号 . => 。`,
+    config: {
+      convert: [
+        [`.`, `。`],
+      ],
+    },
+    str: removeLeft(`
+      你好,一些文本.
+    `),
+    diff: removeLeft(`
+      你好, 一些文本。
+    `),
+  },
+  {
+    name: `仅转换传入的符号 ! => ！`,
     config: {
       convert: [
         [`!`, `！`],
@@ -29,8 +71,8 @@ const list = [
       2 .行车不规范, 亲人两行泪,boo!嘣!
     `),
     diff: removeLeft(`
-      1. 道路千 wan 条，安全第 1 条。
-      2 . 行车不规范，亲人两行泪， boo! 嘣！
+      1. 道路千 wan 条, 安全第 1 条.
+      2 . 行车不规范, 亲人两行泪, boo! 嘣！
     `),
   },
 ]
@@ -39,7 +81,7 @@ function isErr() {
   const err = list.some((item, index) => {
     const config = {...baseConfig, ...item.config}
     const out = handler({config, ...item})
-    console.group(`${index}>`.padEnd(30, `=`))
+    console.group(`${index} > ${item.name}`.padEnd(30, `=`))
     const {str, diff} = item
     const isOk = out === item.diff
     Object.entries({config, str, out, diff, isOk}).forEach(([key, val]) => {
