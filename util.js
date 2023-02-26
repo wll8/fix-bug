@@ -14,8 +14,9 @@ function removeLeft(str) {
 const baseConfig = {
   // 把此值插入到中英文字符之间
   insert: ` `,
-  // 是否处理多余空白符(空格, 制表)为要插入的字符
+  // 是否处理多余空白符(例如空格, 制表)为要插入的字符
   cleanSpace: true,
+  cleanSpaceList: [` `, `	`],
   // 要转换的符号, 受 convertEnd 参数限制
   convert: [
     [`,`, `，`],
