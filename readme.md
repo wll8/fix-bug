@@ -41,4 +41,4 @@ open util.js
 yarn test
 ```
 
-注: [test.js](./test.js) 文件中是一些会更新的测试用例, 运行 `yarn test` 通过即表示函数符合要求.
+注: [test.js](./test.js) 文件中是一些会更新的测试用例, 运行 `yarn test` 通过即表示函数符合要求, 如果用例有误请告知我.
