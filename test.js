@@ -18,10 +18,10 @@ const list = [
       convertEnd: true,
     },
     str: removeLeft(`
-      中文en.en?
+      中文en.en.
     `),
     diff: removeLeft(`
-      中文 en.en?
+      中文 en.en。
     `),
   },
   {
