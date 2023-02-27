@@ -45,7 +45,7 @@ yarn test
 
 ## 测试用例(功能变更)日志
 - 2023-02-27
-  - config.ignroe -- 新增配置, 支持忽略不应处理的字符
+  - config.ignore -- 新增配置, 支持忽略不应处理的字符
   - config.runOrder -- 新增配置, 支持配置处理流程的顺序
   - config.cleanSpace -- 类型从 Boolean 变更为 Array, 用于配置什么叫多于空白符
     - 例: `[]`, 为空数组时表示不处理任何
