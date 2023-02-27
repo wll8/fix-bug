@@ -446,8 +446,8 @@ let list = [
 ]
 
 // 忽略此日期以后的测试用例
-const ignoreDate = `2023-02-27`
-// const ignoreDate = ``
+// const ignoreDate = `2023-02-27`
+const ignoreDate = ``
 list = list.filter(item => {
   const min = (item.change || []).map(item => +(new Date(item))).sort()[0]
   return (min && ignoreDate) ? min < +(new Date(ignoreDate)) : true
