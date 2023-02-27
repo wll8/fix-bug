@@ -50,7 +50,7 @@ const baseConfig = {
  * 接收一个字符串和一个配置, 返回一个处理后的字符串
  */
 function handler({str, config}) {
-    return ``
+  return ``
 }
 
 module.exports = {
