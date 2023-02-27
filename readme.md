@@ -51,3 +51,34 @@ yarn test
     - 为: `true` 时默认处理 `[' ', '	']`
     - 例: `false` 和 `[]`, 为空数组时表示不处理任何
     - 例: `[' ', '	']`, 处理空格和制表
+
+## 参考
+不一定有用.
+
+文献一
+``` js
+/[\u0000-\u00ff]/g // 半角
+/[\u4e00-\u9fa5]/g // 中文
+/[\uff00-\uffff]/g // 全角
+```
+
+文献二
+``` js
+charCodeAt(0) <= 128 // 英文
+```
+
+文献三
+``` js
+function isFullWidth(char) {
+  const charCode = char.charCodeAt(0);
+  return (charCode >= 0xff01 && charCode <= 0xff5e) || // 全角字符
+         (charCode >= 0xffe0 && charCode <= 0xffe6);  // 全角符号
+}
+
+function isHalfWidth(char) {
+  const charCode = char.charCodeAt(0);
+  return charCode >= 0x0020 && charCode <= 0x007e; // 半角字符
+}
+```
+
+- [ASCII码一览表，ASCII码对照表](http://c.biancheng.net/c/ascii/)
