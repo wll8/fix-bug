@@ -137,15 +137,41 @@ let list = [
     // 中x文 en.en?		中xx文en呀xxxx.
     
     // cleanSpace 
-    // 中x文 en.en?		中x文en呀x.
+    // 中x文 en.en?		中 文en呀 .
 
     // insert 
-    // 中 x 文 en.en?		中 x 文 en 呀 x.
+    // 中 x 文 en.en?		中 文 en 呀 .
 
     // convert 
-    // 中 x 文 en.en?		中 x 文 en 呀 x。
+    // 中 x 文 en.en?		中 文 en 呀 .
     diff: removeLeft(`
-      中 x 文 en.en?		中 x 文 en 呀 x。
+      中 x 文 en.en?		中 文 en 呀 .
+    `),
+  },
+  {
+    change: [`2023-02-27`],
+    name: `当 cleanSpace 为 ['x', 'y'] 时`,
+    config: {
+      convertEnd: true,
+      cleanSpace: [`x`, `y`],
+    },
+    str: removeLeft(`
+      中x文 en.en?		中xyy文en呀xxxxxyyyy.
+    `),
+    
+    // raw 
+    // 中x文 en.en?		中xyy文en呀xxxxxyyyy.
+    
+    // cleanSpace 
+    // 中x文 en.en?		中x 文en呀 .
+
+    // insert 
+    // 中 x 文 en.en?		中x 文 en 呀 .
+
+    // convert 
+    // 中 x 文 en.en?		中x 文 en 呀 .
+    diff: removeLeft(`
+      中 x 文 en.en?		中x 文 en 呀 .
     `),
   },
   {
