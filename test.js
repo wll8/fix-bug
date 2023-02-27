@@ -261,7 +261,7 @@ let list = [
       中文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中文---en.en?---中文---en---呀。
+      中文 en.en?---中文---en---呀。
     `),
   },
   {
