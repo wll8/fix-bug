@@ -25,6 +25,57 @@ const list = [
     `),
   },
   {
+    name: `处理流程为 cleanSpace insert convert`,
+    config: {
+      runOrder:  [`cleanSpace`, `insert`, `convert`],
+    },
+    str: removeLeft(`
+      你好!中文.中    文
+    `),
+    /**
+     * raw
+     * 你好!中文.中文
+     * 
+     * cleanSpace
+     * 你好!中文.中 文
+     * 
+     * insert
+     * 你好 ! 中文. 中 文
+     * 
+     * convert
+     * 你好 ! 中文。 中 文
+     * 
+     */
+    diff: removeLeft(`
+      你好 ! 中文。 中 文
+    `),
+  },
+  {
+    name: `更改处理流程为 insert 在最后`,
+    config: {
+      runOrder:  [`cleanSpace`, `convert`, `insert`],
+    },
+    str: removeLeft(`
+      你好!中文.中    文
+    `),
+    /**
+     * raw
+     * 你好!中文.中    文
+     * 
+     * cleanSpace
+     * 你好!中文.中 文
+     * 
+     * convert -- 注意只处理 convert 内含有的字符
+     * 你好!中文。中 文
+     * 
+     * insert
+     * 你好 ! 中文。中 文
+     */
+    diff: removeLeft(`
+      你好 ! 中文。中 文
+    `),
+  },
+  {
     name: `convertEnd 参数为 true, 应转换英文后面符号`,
     config: {
       convertEnd: true,
@@ -181,7 +232,7 @@ const list = [
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
-    // 原始 
+    // raw 
     // 中文 en.en?		中文en呀.
     
     // cleanSpace 
@@ -220,7 +271,7 @@ const list = [
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
-    // 原始 
+    // raw 
     // 中文 en.en?		中文en呀.
     
     // cleanSpace 
@@ -274,7 +325,7 @@ const list = [
       你a	 1好.
     `),
 
-    // 原始 
+    // raw 
     // 你a	 1好.
     
     // cleanSpace -- 处理多余空白符为 insert, 不递归处理.
