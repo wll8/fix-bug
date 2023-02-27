@@ -31,7 +31,7 @@ let list = [
     `),
     /**
      * raw
-     * 你好!中文.中文
+     * 你好!中文.中    文
      * 
      * cleanSpace
      * 你好!中文.中 文
@@ -93,8 +93,21 @@ let list = [
     str: removeLeft(`
       abc.中文en.en.
     `),
+    /**
+     * raw
+     * abc.中文en.en.
+     * 
+     * cleanSpace
+     * abc.中文en.en.
+     * 
+     * insert
+     * abc. 中文 en.en.
+     * 
+     * convert
+     * abc。 中文 en.en。
+     */
     diff: removeLeft(`
-      abc。中文 en.en。
+      abc。 中文 en.en。
     `),
   },
   {
