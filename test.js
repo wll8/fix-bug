@@ -39,7 +39,7 @@ let list = [
      * insert
      * 你好 ! 中文. 中 文
      * 
-     * convert
+     * convert -- 由于先 insert 导致句号后面有空格
      * 你好 ! 中文。 中 文
      * 
      */
@@ -103,7 +103,7 @@ let list = [
      * insert
      * abc. 中文 en.en.
      * 
-     * convert
+     * convert -- 由于先 insert 导致句号后面有空格
      * abc。 中文 en.en。
      */
     diff: removeLeft(`
@@ -149,13 +149,13 @@ let list = [
     // raw 
     // 中x文 en.en?		中xx文en呀xxxx.
     
-    // cleanSpace 
+    // cleanSpace -- 由于 xxxx 被换为空格, 导致呀和句号是分开的。
     // 中x文 en.en?		中 文en呀 .
 
-    // insert 
+    // insert -- 由于需要插入空格, 所以 x 左右被插入了
     // 中 x 文 en.en?		中 文 en 呀 .
 
-    // convert 
+    // convert -- 由于呀和句号被分开了，所以不属于符号，不被转换。
     // 中 x 文 en.en?		中 文 en 呀 .
     diff: removeLeft(`
       中 x 文 en.en?		中 文 en 呀 .
@@ -178,14 +178,14 @@ let list = [
     // raw 
     // 中x文 en.en?		中xyy文en呀xxxxxyyyy.
     
-    // cleanSpace 
+    // cleanSpace -- 由于 xyy 中的 x 只有一个, 会被保留, 而 yy 有多个, 被替换, xxxxxyyyy 也被替换.
     // 中x文 en.en?		中x 文en呀 .
 
     // insert 
-    // 中 x 文 en.en?		中x 文 en 呀 .
+    // 中 x 文 en.en?		中 x 文 en 呀 .
 
-    // convert 
-    // 中 x 文 en.en？		中x 文 en 呀 .
+    // convert -- convertEnd 为 true, 问号转中文, 由于句号被分开, 不被转换.
+    // 中 x 文 en.en？		中 x 文 en 呀 .
     diff: removeLeft(`
       中 x 文 en.en？		中x 文 en 呀 .
     `),
@@ -196,10 +196,10 @@ let list = [
       cleanSpace: true,
     },
     str: removeLeft(`
-      中文   en.en?		中文en呀${getSpace().join(``)}呀.
+      中文   en.en?		中ﾠﾠﾠ文en呀　　　呀.
     `),
     diff: removeLeft(`
-      中文 en.en? 中文 en 呀${getSpace().join(``)}呀。
+      中文 en.en? 中ﾠﾠﾠ文 en 呀　　　呀。
     `),
   },
   {
@@ -208,10 +208,10 @@ let list = [
       cleanSpace: true,
     },
     str: removeLeft(`
-      中文   en.en?		中文en呀${getSpace().join(` `)}呀.
+      中文   en.en?		中文en呀ﾠ	ﾠ	ﾠ呀.
     `),
     diff: removeLeft(`
-      中文 en.en? 中文 en 呀${getSpace().join(` `)}呀。
+      中文 en.en? 中文 en 呀ﾠ	ﾠ	ﾠ呀。
     `),
   },
   {
@@ -220,10 +220,10 @@ let list = [
       cleanSpace: true,
     },
     str: removeLeft(`
-      中文   en.en?		中文en呀${getSpace().join(`      `)}呀.
+      中文   en.en?		中文en呀　		　呀.
     `),
     diff: removeLeft(`
-      中文 en.en? 中文 en 呀${getSpace().join(` `)}呀。
+      中文 en.en? 中文 en 呀　　呀。
     `),
   },
   {
@@ -286,7 +286,7 @@ let list = [
       中---文 en.en?		中文en呀.
     `),
     diff: removeLeft(`
-      中---文---en.en?---中文---en---呀。
+      中---文 en.en?---中文---en---呀。
     `),
   },
   {
@@ -376,20 +376,34 @@ let list = [
       你好,一些文本.
     `),
     diff: removeLeft(`
-      你好, 一些文本。
+      你好 , 一些文本。
     `),
   },
   {
     change: [`2023-02-27`],
     name: `配置忽略项`,
     config: {
-      ignore: [`-`, `/`],
+      ignore: [`-`, `/`], // 配置之后, 不再做任何处理, 不管左右有什么
     },
     str: removeLeft(`
       ８-5=3,中文/英文
     `),
     diff: removeLeft(`
       ８-5=3, 中文/英文
+    `),
+  },
+  {
+    change: [`2023-02-27`],
+    name: `配置忽略项2`,
+    config: {
+      runOrder:  [`cleanSpace`, `convert`, `insert`],
+      ignore: [`-`, `/`],
+    },
+    str: removeLeft(`
+      ８-5=3,中文,/英文
+    `),
+    diff: removeLeft(`
+      ８-5=3, 中文，/英文
     `),
   },
   {
@@ -412,15 +426,15 @@ let list = [
     // 你aa	 ba b a1好.
 
     // insert -- 处理其他地方的 insert
-    // 你aa	 ba b aaa	 ba b a1aa	 ba b a好.
+    // 你a	 ba b aaa	 ba b a1a	 ba b a好.
 
     // convert[0] -- 处理 convert 时留意 convertEnd 参数
-    // 你aa	 ba b aaa	 ba b a1aa	 ba b a好。
+    // 你a	 ba b aaa	 ba b a1a	 ba b a好。
 
     // convert[1] -- 留意 convert 永远表示标点, 所以在其他字符尾部才做处理.
-    // 你ab	 bb b aab	 bb b a1ab	 bb b a好。
+    // 你b	 bb b aab	 bb b a1b	 bb b a好。
     diff: removeLeft(`
-      你ab	 bb b aab	 bb b a1ab	 bb b a好。
+      你b	 bb b aab	 bb b a1b	 bb b a好。
     `),
   },
   {
@@ -435,8 +449,8 @@ let list = [
       2 .行车不规范, 亲人两行泪,boo!嘣!
     `),
     diff: removeLeft(`
-      1. 道路千 wan 条, 安全第 1 条.
-      2 . 行车不规范, 亲人两行泪, boo! 嘣！
+      1. 道路千 wan 条 , 安全第 1 条 .
+      2 . 行车不规范 , 亲人两行泪 ,boo! 嘣！
     `),
   },
   {
@@ -452,8 +466,8 @@ let list = [
       2 .行车不规范, 亲人两行泪,boo!嘣!
     `),
     diff: removeLeft(`
-      1. 道路千 wan 条, 安全第 1 条.
-      2 . 行车不规范, 亲人两行泪, boo! 嘣!
+      1. 道路千 wan 条 , 安全第 1 条 .
+      2 . 行车不规范 , 亲人两行泪 ,boo! 嘣!
     `),
   },
 ]
@@ -503,7 +517,7 @@ function getSpace () {
   return [
     // ` `,
     // `	`,
-    ` `,
+    ` `, // 半角
     `​`,
     `‌`,
     `‍`,
@@ -518,7 +532,7 @@ function getSpace () {
     `⁭`,
     `⁮`,
     `⁯`,
-    `　`,
+    `　`, // 全角空格
     `ᅟ`,
     `ᅠ`,
     ` `,
@@ -533,7 +547,7 @@ function getSpace () {
     ` `,
     ` `,
     ` `,
-    `ﾠ`,
+    `ﾠ`, // 全角
   ]
 }
 
