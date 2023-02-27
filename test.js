@@ -416,11 +416,12 @@ let list = [
   },
 ]
 
-// const testDate = `2023-02-27`
-const testDate = ``
+// 忽略此日期以后的测试用例
+// const ignoreDate = `2023-02-27`
+const ignoreDate = ``
 list = list.filter(item => {
   const min = (item.change || []).map(item => +(new Date(item))).sort()[0]
-  return (min && testDate) ? min < +(new Date(testDate)) : true
+  return (min && ignoreDate) ? min < +(new Date(ignoreDate)) : true
 })
 
 function isErr() {
