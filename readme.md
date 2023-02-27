@@ -47,6 +47,7 @@ yarn test
 - 2023-02-27
   - config.ignore -- 新增配置, 支持忽略不应处理的字符
   - config.runOrder -- 新增配置, 支持配置处理流程的顺序
-  - config.cleanSpace -- 类型从 Boolean 变更为 Array, 用于配置什么叫多于空白符
-    - 例: `[]`, 为空数组时表示不处理任何
+  - config.cleanSpace -- 类型支持从 Boolean 和 Array, 用于配置什么叫多于空白符
+    - 为: `true` 时默认处理 `[' ', '	']`
+    - 例: `false` 和 `[]`, 为空数组时表示不处理任何
     - 例: `[' ', '	']`, 处理空格和制表

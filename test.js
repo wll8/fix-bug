@@ -1,5 +1,5 @@
 const { removeLeft, baseConfig, handler } = require(`./util.js`)
-const list = [
+let list = [
   {
     name: `convertEnd 参数为 false, 不转换英文后面符号`,
     config: {
@@ -25,10 +25,7 @@ const list = [
     `),
   },
   {
-    name: `处理流程为 cleanSpace insert convert`,
-    config: {
-      runOrder:  [`cleanSpace`, `insert`, `convert`],
-    },
+    name: `默认配置1`,
     str: removeLeft(`
       你好!中文.中    文
     `),
@@ -51,6 +48,7 @@ const list = [
     `),
   },
   {
+    change: [`2023-02-27`],
     name: `更改处理流程为 insert 在最后`,
     config: {
       runOrder:  [`cleanSpace`, `convert`, `insert`],
@@ -88,7 +86,7 @@ const list = [
     `),
   },
   {
-    name: `convertEnd 参数为 true, 不转换英文后面符号 -- 前而有英文`,
+    name: `convertEnd 参数为 true, 不转换英文后面符号 -- 前面有英文`,
     config: {
       convertEnd: true,
     },
@@ -109,6 +107,45 @@ const list = [
     `),
     diff: removeLeft(`
       中文 en.en?		中文 en 呀。
+    `),
+  },
+  {
+    change: [`2023-02-27`],
+    name: `当 cleanSpace 为 [] 时`,
+    config: {
+      cleanSpace: [],
+    },
+    str: removeLeft(`
+      中文 en.en?		中文en呀.
+    `),
+    diff: removeLeft(`
+      中文 en.en?		中文 en 呀。
+    `),
+  },
+  {
+    change: [`2023-02-27`],
+    name: `当 cleanSpace 为 ['x'] 时`,
+    config: {
+      convertEnd: true,
+      cleanSpace: [`x`],
+    },
+    str: removeLeft(`
+      中x文 en.en?		中xx文en呀xxxx.
+    `),
+    
+    // raw 
+    // 中x文 en.en?		中xx文en呀xxxx.
+    
+    // cleanSpace 
+    // 中x文 en.en?		中x文en呀x.
+
+    // insert 
+    // 中 x 文 en.en?		中 x 文 en 呀 x.
+
+    // convert 
+    // 中 x 文 en.en?		中 x 文 en 呀 x。
+    diff: removeLeft(`
+      中 x 文 en.en?		中 x 文 en 呀 x。
     `),
   },
   {
@@ -301,6 +338,7 @@ const list = [
     `),
   },
   {
+    change: [`2023-02-27`],
     name: `配置忽略项`,
     config: {
       ignore: [`-`, `/`],
@@ -313,7 +351,7 @@ const list = [
     `),
   },
   {
-    name: `参数先后顺序, 先 cleanSpace - insert - convert`,
+    name: `默认配置2`,
     config: {
       insert: `a	 ba b a`,
       convert: [
@@ -377,6 +415,13 @@ const list = [
     `),
   },
 ]
+
+// const testDate = `2023-02-27`
+const testDate = ``
+list = list.filter(item => {
+  const min = (item.change || []).map(item => +(new Date(item))).sort()[0]
+  return (min && testDate) ? min < +(new Date(testDate)) : true
+})
 
 function isErr() {
   const err = list.some((item, index) => {
