@@ -16,7 +16,13 @@ const baseConfig = {
   insert: ` `,
   // 是否处理多余空白符(例如空格, 制表)为要插入的字符
   cleanSpace: true,
+  // 定义什么叫空白符
   cleanSpaceList: [` `, `	`],
+  /**
+   * 忽略项, 不管它的旁边是什么. 比如配置为['-', '/']时
+   * 【８-5=3,中文/英文】的处理结果为【８-5=3, 中文/英文】
+   */
+  ignore: [],
   // 要转换的符号, 受 convertEnd 参数限制
   convert: [
     [`,`, `，`],
@@ -24,8 +30,8 @@ const baseConfig = {
   ],
   /**
    * 是否转换英文后面的标点符号
-   * 当为 false 时, 【中文en.en?】应转换为【中文 en.en? 】
-   * 当为 true 时, 【中文en.en?】应转换为【中文 en.en？ 】
+   * 当为 false 时, 【中文en.en?】应转换为【中文 en.en?】
+   * 当为 true 时, 【中文en.en?】应转换为【中文 en.en？】
    */
   convertEnd: false,
   /**

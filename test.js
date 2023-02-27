@@ -250,6 +250,18 @@ const list = [
     `),
   },
   {
+    name: `配置忽略项`,
+    config: {
+      ignore: [`-`, `/`],
+    },
+    str: removeLeft(`
+      ８-5=3,中文/英文
+    `),
+    diff: removeLeft(`
+      ８-5=3, 中文/英文
+    `),
+  },
+  {
     name: `参数先后顺序, 先 cleanSpace - insert - convert`,
     config: {
       insert: `a	 ba b a`,
