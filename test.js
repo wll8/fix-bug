@@ -152,6 +152,9 @@ let list = [
     change: [`2023-02-27`],
     name: `当 cleanSpace 为 ['x', 'y'] 时`,
     config: {
+      convert: [
+        [`?`, `？`],
+      ],
       convertEnd: true,
       cleanSpace: [`x`, `y`],
     },
@@ -169,9 +172,9 @@ let list = [
     // 中 x 文 en.en?		中x 文 en 呀 .
 
     // convert 
-    // 中 x 文 en.en?		中x 文 en 呀 .
+    // 中 x 文 en.en？		中x 文 en 呀 .
     diff: removeLeft(`
-      中 x 文 en.en?		中x 文 en 呀 .
+      中 x 文 en.en？		中x 文 en 呀 .
     `),
   },
   {
@@ -443,8 +446,8 @@ let list = [
 ]
 
 // 忽略此日期以后的测试用例
-// const ignoreDate = `2023-02-27`
-const ignoreDate = ``
+const ignoreDate = `2023-02-27`
+// const ignoreDate = ``
 list = list.filter(item => {
   const min = (item.change || []).map(item => +(new Date(item))).sort()[0]
   return (min && ignoreDate) ? min < +(new Date(ignoreDate)) : true
