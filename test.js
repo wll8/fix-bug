@@ -178,16 +178,16 @@ let list = [
     // raw 
     // 中x文 en.en?		中xyy文en呀xxxxxyyyy.
     
-    // cleanSpace -- 由于 xyy 中的 x 只有一个, 会被保留, 而 yy 有多个, 被替换, xxxxxyyyy 也被替换.
-    // 中x文 en.en?		中x 文en呀 .
+    // cleanSpace -- 由于 xyy 都被视为空白符, 所以都被替换了
+    // 中x文 en.en?		中 文en呀 .
 
     // insert 
-    // 中 x 文 en.en?		中 x 文 en 呀 .
+    // 中 x 文 en.en?		中 文 en 呀 .
 
     // convert -- convertEnd 为 true, 问号转中文, 由于句号被分开, 不被转换.
-    // 中 x 文 en.en？		中 x 文 en 呀 .
+    // 中 x 文 en.en？		中 文 en 呀 .
     diff: removeLeft(`
-      中 x 文 en.en？		中x 文 en 呀 .
+      中 x 文 en.en？		中 文 en 呀 .
     `),
   },
   {
