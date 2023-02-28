@@ -55,6 +55,13 @@ yarn test
 ## 参考
 不一定有用.
 
+- [中文排版需求](https://w3c.github.io/clreq/)
+- [饿了么文案风格指南](https://github.com/ElemeFE/style-guide/blob/master/copywriter.md)
+- [syntax-parser](https://github.com/ascoders/syntax-parser)
+- [写给大家看的中文排版指南](https://zhuanlan.zhihu.com/p/20506092)
+- [中文写作排版风格指南](https://github.com/RightCapitalHQ/chinese-style-guide)
+- [技术文章的写作技巧分享](https://github.com/ziyi2/ziyi2.github.io/issues/13)
+
 文献一
 ``` js
 /[\u0000-\u00ff]/g // 半角
@@ -82,3 +89,9 @@ function isHalfWidth(char) {
 ```
 
 - [ASCII码一览表，ASCII码对照表](http://c.biancheng.net/c/ascii/)
+
+## 相关项目
+- https://github.com/Leopoldthecoder/doctor-jones-extension
+  - https://zhuanlan.zhihu.com/p/79147438
+- [中文文案排版指北](https://github.com/sparanoid/chinese-copywriting-guidelines/blob/master/README.zh-Hans.md) -- 推荐
+  - https://github.com/vinta/pangu.js
