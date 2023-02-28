@@ -32,16 +32,16 @@ let list = [
     /**
      * raw
      * 你好!中文.中    文
-     * 
+     *
      * cleanSpace
      * 你好!中文.中 文
-     * 
+     *
      * insert
      * 你好 ! 中文. 中 文
-     * 
+     *
      * convert -- 由于先 insert 导致句号后面有空格
      * 你好 ! 中文。 中 文
-     * 
+     *
      */
     diff: removeLeft(`
       你好 ! 中文。 中 文
@@ -59,13 +59,13 @@ let list = [
     /**
      * raw
      * 你好!中文.中    文
-     * 
+     *
      * cleanSpace
      * 你好!中文.中 文
-     * 
+     *
      * convert -- 注意只处理 convert 内含有的字符
      * 你好!中文。中 文
-     * 
+     *
      * insert
      * 你好 ! 中文。中 文
      */
@@ -96,13 +96,13 @@ let list = [
     /**
      * raw
      * abc.中文en.en.
-     * 
+     *
      * cleanSpace
      * abc.中文en.en.
-     * 
+     *
      * insert
      * abc. 中文 en.en.
-     * 
+     *
      * convert -- 由于先 insert 导致句号后面有空格
      * abc。 中文 en.en。
      */
@@ -145,10 +145,10 @@ let list = [
     str: removeLeft(`
       中x文 en.en?		中xx文en呀xxxx.
     `),
-    
-    // raw 
+
+    // raw
     // 中x文 en.en?		中xx文en呀xxxx.
-    
+
     // cleanSpace -- 由于 xxxx 被换为空格, 导致呀和句号是分开的。
     // 中x文 en.en?		中 文en呀 .
 
@@ -174,14 +174,14 @@ let list = [
     str: removeLeft(`
       中x文 en.en?		中xyy文en呀xxxxxyyyy.
     `),
-    
-    // raw 
+
+    // raw
     // 中x文 en.en?		中xyy文en呀xxxxxyyyy.
-    
+
     // cleanSpace -- 由于 xyy 都被视为空白符, 所以都被替换了
     // 中x文 en.en?		中 文en呀 .
 
-    // insert 
+    // insert
     // 中 x 文 en.en?		中 文 en 呀 .
 
     // convert -- convertEnd 为 true, 问号转中文, 由于句号被分开, 不被转换.
@@ -311,16 +311,16 @@ let list = [
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
-    // raw 
+    // raw
     // 中文 en.en?		中文en呀.
-    
-    // cleanSpace 
+
+    // cleanSpace
     // 中文 en.en?_中文en呀.
 
-    // insert 
+    // insert
     // 中文 en.en?__中文_en_呀.
 
-    // convert 
+    // convert
     // 中文 en.en?__中文_en_呀_
     diff: removeLeft(`
       中文 en.en?__中文_en_呀_
@@ -350,16 +350,16 @@ let list = [
     str: removeLeft(`
       中文 en.en?		中文en呀.
     `),
-    // raw 
+    // raw
     // 中文 en.en?		中文en呀.
-    
-    // cleanSpace 
+
+    // cleanSpace
     // 中文 en.en?		_		中文en呀.
 
-    // insert 
+    // insert
     // 中文 en.en?		_		中文_en_呀.
 
-    // convert 
+    // convert
     // 中文 en.en?		_		中文_en_呀._.
     diff: removeLeft(`
       中文 en.en?		_		中文_en_呀._.
@@ -419,9 +419,9 @@ let list = [
       你a	 1好.
     `),
 
-    // raw 
+    // raw
     // 你a	 1好.
-    
+
     // cleanSpace -- 处理多余空白符为 insert, 不递归处理.
     // 你aa	 ba b a1好.
 
