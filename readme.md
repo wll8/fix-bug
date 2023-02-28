@@ -98,3 +98,4 @@ function isHalfWidth(char) {
   - https://zhuanlan.zhihu.com/p/79147438
 - [中文文案排版指北](https://github.com/sparanoid/chinese-copywriting-guidelines/blob/master/README.zh-Hans.md) -- 推荐
   - https://github.com/vinta/pangu.js
+  - https://github.com/huacnlee/autocorrect
